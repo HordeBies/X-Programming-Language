@@ -21,11 +21,13 @@ REAL                ({INTEGER}{EXP}|{DOUBLE}{EXP}?)
 
 %%
 
-[[\-+*/<>}:|&!^%\]]     { return *yytext; }
+[-+*/<>}!%]             { return *yytext; }
 ">="                    { return  GE;}
 "<="                    { return  LE;}
 "=="                    { return  EQ;}
 "!="                    { return  NE;}
+"&&"                    { return  LOGIC_AND;}
+"||"                    { return  LOGIC_OR;}
 "+="                    { return ADD_EQ;}
 "-="                    { return SUB_EQ;}
 "*="                    { return MULT_EQ;}
