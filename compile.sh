@@ -5,7 +5,7 @@
 # fi
 flex lexer.l
 bison -dy --verbose parser.y
-g++ -w -g y.tab.c lex.yy.c node_base.hpp
+g++ -w -g y.tab.c lex.yy.c node_base.cpp
 if [ -n "$1" ]
     then
     ./a.exe ./$1.c

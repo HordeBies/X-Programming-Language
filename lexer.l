@@ -1,6 +1,6 @@
 %{
 
-#include "main.h" // for token codes, yylval
+#include "main.h"
 
 // static void DoBeforeEachAction(); 
 // #define YY_USER_ACTION DoBeforeEachAction();
