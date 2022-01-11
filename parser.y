@@ -1,19 +1,78 @@
 %{
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-
-#include "lex.yy.c"
+#include "main.h"
 
 int yylex(void);
 int yyerror(char *s);
+extern FILE *yyin;
+extern char* yytext;
+extern int yylineno;
 
 //outputting logs:
 std::ofstream myfile;
 %} 
+
+%union {
+    //Program *program;
+    Node *node;
+    int integerConstant;
+    bool boolConstant;
+    const char *stringConstant;
+    double doubleConstant;
+    //char identifier[MaxIdentLen+1]; // +1 for terminating null
+
+
+    //Decl *decl;
+    // VarDecl *vardecl;
+    // FnDecl *fndecl;
+    // ClassDecl *classdecl;
+    // InterfaceDecl *interfacedecl;  
+    
+    //Type *simpletype;
+    // NamedType *namedtype;
+    // ArrayType *arraytype;
+    
+    // List<NamedType*> *implements;
+    // List<Decl*> *declList;
+    // List<VarDecl*> *vardecls;
+
+   
+    // StmtBlock *stmtblock;
+    // Stmt *stmt;
+    // IfStmt *ifstmt;
+    // ForStmt *forstmt;
+    // WhileStmt *whilestmt;
+    // ReturnStmt *rtnstmt;	
+    // BreakStmt *brkstmt;
+    // SwitchStmt *switchstmt;
+    // CaseStmt *casestmt;
+    // DefaultStmt *defaultstmt;
+    // PrintStmt *pntstmt;
+    // List<Stmt*> *stmts;
+    // List<CaseStmt*> *casestmts;
+    
+    // Expr *expr;
+    // Expr *optexpr;
+    // List<Expr*> *exprs;
+    // Call *call;
+    
+    // IntConstant *intconst;
+    // DoubleConstant *doubleconst;
+    // BoolConstant *boolconst;
+    // StringConstant *stringconst;
+    // NullConstant *nullconst;
+    
+    // ArithmeticExpr *arithmeticexpr;
+    // RelationalExpr *relationalexpr;
+    // EqualityExpr   *equalityexpr;
+    // LogicalExpr    *logicalexpr;
+    // AssignExpr     *assignexpr;
+    // PostfixExpr    *postfixexpr;
+    
+    // LValue *lvalue;
+    // FieldAccess *fieldaccess;
+    // ArrayAccess *arrayaccess;
+}
+
 %token INT_TYPE 
 %token DOUBLE_TYPE 
 %token BOOL_TYPE 
@@ -30,6 +89,60 @@ std::ofstream myfile;
 %token DOUBLE
 %token BOOL
 %token STRING
+%type<node>			VarType
+/* %type <program>       Program
+%type <declList>      DeclList
+%type <decl>          Decl
+%type <vardecl>       VarDecl
+%type <fndecl>        FnDecl
+%type <classdecl>     ClassDecl
+%type <interfacedecl> InterfaceDecl*//*
+%type <simpletype>    VarType
+%type <namedtype>     NamedType
+%type <arraytype>     ArrayType
+%type <vardecls>      Formals
+%type <vardecls>      Variables
+%type <implements>    Implements
+%type <implements>    Impl
+%type <namedtype>     Extend
+%type <decl>	      Field
+%type <declList>      Fields
+%type <decl>	      Prototype
+%type <declList>      Prototypes
+%type <vardecls>      VarDecls
+%type <stmt>          Stmt
+%type <stmts>         Stmts
+%type <stmtblock>     StmtBlock
+%type <ifstmt>        IfStmt
+%type <whilestmt>     WhileStmt
+%type <forstmt>	      ForStmt
+%type <rtnstmt>       ReturnStmt
+%type <brkstmt>	      BreakStmt
+%type <switchstmt>    SwitchStmt
+%type <casestmts>     Cases
+%type <casestmt>      Case
+%type <defaultstmt>   Default
+%type <pntstmt>	      PrintStmt
+%type <expr>          Expr
+%type <expr>          OptExpr
+%type <exprs>         Exprs
+%type <exprs>	      Actuals
+%type <expr>	      Constant
+%type <intconst>      IntConstant 
+%type <boolconst>     BoolConstant
+%type <stringconst>   StringConstant
+%type <doubleconst>   DoubleConstant
+%type <nullconst>     NullConstant
+%type <call>          Call
+%type <arithmeticexpr> ArithmeticExpr
+%type <relationalexpr> RelationalExpr
+%type <equalityexpr>   EqualityExpr
+%type <logicalexpr>    LogicalExpr
+%type <assignexpr>     AssignExpr
+%type <postfixexpr>    PostfixExpr
+%type <lvalue>        LValue
+%type <fieldaccess>   FieldAccess
+%type <arrayaccess>   ArrayAccess */
 
 // https://docs.microsoft.com/en-us/cpp/c-language/precedence-and-order-of-evaluation?view=msvc-170#precedence-and-associativity-of-c-operators
 %nonassoc PRECELSE
@@ -46,22 +159,22 @@ std::ofstream myfile;
 %left INCREMENT DECREMENT
 %%
 
-Program     : DeclList
+Program     : DeclList {@1;printf("Done!\n");} 
             ;
 
 DeclList    : DeclList Decl
             | Decl
             ;
-
+//global
 Decl    : AssignExpr ';'
         | DeclarationStmt
         | FuncDecl
         ;
 
-VarType : INT_TYPE 
-        | DOUBLE_TYPE
-        | BOOL_TYPE
-        | STRING_TYPE
+VarType : INT_TYPE 	 	
+        | DOUBLE_TYPE 	
+        | BOOL_TYPE	 	
+        | STRING_TYPE 	
         ;
 
 FuncDecl    : VarType IDENTIFIER '(' Params ')' StmtBlock
@@ -80,8 +193,8 @@ StmtBlock   : '{' Statements '}'
 Statements  : Statements Statement
             | Statement
             ;
-
-Statement   : Expression ';'
+//In scope
+Statement   : Expression ';' //postfix
             | DeclarationStmt
             | IfStmt
             | WhileStmt
@@ -100,8 +213,11 @@ IfStmt  : IF '(' Expression ')' StmtBlock ELSE StmtBlock
 
 WhileStmt   : WHILE '(' Expression ')' StmtBlock
             ;
+ForEnd 	: Expression
+		| PostfixExpr
+		;
 
-ForStmt : FOR '(' AssignExpr ';' Expression ';' Expression ')' StmtBlock
+ForStmt : FOR '(' AssignExpr ';' Expression ';' ForEnd ')' StmtBlock
         ;
 
 BreakStmt   : BREAK ';'
@@ -130,7 +246,6 @@ Expression  : AssignExpr
             | EqualityExpr
             | RelationalExpr
             | LogicalExpr
-            | PostfixExpr
             ;
 
 AssignExpr  : IDENTIFIER '=' Expression

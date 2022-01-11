@@ -1,12 +1,12 @@
-if [ -z "$2" ]
+# if [ -z "$2" ]
+#     then
+#     echo "Too few arguments are provided"
+#     exit 1
+# fi
+flex lexer.l
+bison -dy --verbose parser.y
+g++ -w -g y.tab.c lex.yy.c node_base.hpp
+if [ -n "$1" ]
     then
-    echo "Too few arguments are provided"
-    exit 1
-fi
-flex $1.l
-bison -dy --verbose $2.y
-g++ -w -g y.tab.c
-if [ -n "$3" ]
-    then
-    ./a.exe ./$3.c
+    ./a.exe ./$1.c
 fi

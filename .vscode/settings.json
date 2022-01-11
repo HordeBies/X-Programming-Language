@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "xutility": "cpp",
+        "lex.yy.c": "cpp",
+        "y.tab.h": "c",
+        "iostream": "cpp",
+        "string": "cpp",
+        "fstream": "cpp"
+    }
+}
