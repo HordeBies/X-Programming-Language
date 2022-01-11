@@ -1,6 +1,10 @@
-y.output
+a.exe
+lex.yy.c
 y.tab.c
 y.tab.h
-log.txt
-lex.yy.c
-a.exe
+test.y
+y.output
+old_lexer.l
+old_parser.y
+test.c
+Old/*
