@@ -74,6 +74,7 @@ Params  : Params ',' VarType IDENTIFIER
         ;
 
 StmtBlock   : '{' Statements '}'
+            | '{' '}' //empty body
             ;
 
 Statements  : Statements Statement
