@@ -159,13 +159,13 @@ std::ofstream myfile;
 %left INCREMENT DECREMENT
 %%
 
-Program     : DeclList {@1;printf("Done!\n");} 
+Program     : DeclList {@1;printf("Done!\n");Node* n = new Node();n->test("new node");} 
             ;
 
 DeclList    : DeclList Decl
             | Decl
             ;
-//global
+
 Decl    : AssignExpr ';'
         | DeclarationStmt
         | FuncDecl
@@ -187,14 +187,14 @@ Params  : Params ',' VarType IDENTIFIER
         ;
 
 StmtBlock   : '{' Statements '}'
-            | '{' '}' //empty body
+            | '{' '}'
             ;
 
 Statements  : Statements Statement
             | Statement
             ;
-//In scope
-Statement   : Expression ';' //postfix
+
+Statement   : Expression ';'
             | DeclarationStmt
             | IfStmt
             | WhileStmt
@@ -251,7 +251,6 @@ Expression  : AssignExpr
 AssignExpr  : IDENTIFIER '=' Expression
             | VarType IDENTIFIER '=' Expression
             ;
-
 
 Constant    : INTEGER
             | DOUBLE
