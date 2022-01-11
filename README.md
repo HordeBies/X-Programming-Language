@@ -8,10 +8,10 @@ $bash compile.sh [Lexer_File_Name] [Parser_File_Name] [OPTIONAL: Test_File_Name]
 ````
 e.g.
 ````
-bash compile.sh my_lexer my_parser
+bash compile.sh lexer parser
 ````
 or
 ````
-bash compile.sh my_lexer my_parser test
+bash compile.sh lexer parser test
 ````
 
