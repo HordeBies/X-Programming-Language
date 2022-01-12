@@ -9,7 +9,6 @@ void saveToken();
 static void DoBeforeEachAction();
 #define YY_USER_ACTION DoBeforeEachAction();
 #define MOVE_CURSOR      (curLoc.pos += yyleng)
-
 int colno;
 Location curLoc = {1,0,0};
 // List<const char*> savedlines;
@@ -89,8 +88,8 @@ SINGLE_COMMENT     ("//"[^\n]*)
  /* consume single-line comment */
 {SINGLE_COMMENT}        ;
  /* count line */
-\n                    	{curLoc.lineNum++; curLoc.pos = 0;}
-\t						{curLoc.pos += 4;}
+\n                    	{curLoc.lineNum++; curLoc.pos = 0; yylineno++;}
+\t						          {curLoc.pos += 4;}
 " "                     {curLoc.pos++;}
  /* all other characters are reported as errors */
 .                       {
