@@ -1,9 +1,9 @@
 %{
-#include "main.h"
+#include "../parse_tree/parse_tree.h"
+#include <fstream>
 
 int yylex(void);
 int yyerror(char *s);
-extern FILE *yyin;
 extern char* yytext;
 extern int yylineno;
 
@@ -159,7 +159,7 @@ std::ofstream myfile;
 %left INCREMENT DECREMENT
 %%
 
-Program     : DeclList {@1;printf("Done!\n");Node* n = new Node();n->test("new node");} 
+Program     : DeclList
             ;
 
 DeclList    : DeclList Decl
@@ -294,7 +294,7 @@ PostfixExpr : IDENTIFIER INCREMENT
             ;
 %%
 
-int main(int argc, char *argv[]){
+/* int main(int argc, char *argv[]){
     printf("\n\n----------- Simple Programming Language Compiler ----------- \n\n");
     yyin = fopen(argv[1], "r");
     //myfile.open("log.txt");
@@ -302,7 +302,7 @@ int main(int argc, char *argv[]){
     //myfile.close();
     fclose(yyin);
     return 0;
-}
+} */
 int yyerror(char *s) {
     printf("Error in line: %d, with message %s at token: %s\n", yylineno, s, yytext);
     myfile << "Error in line: "<< yylineno << ", with message "<< s << " at token: "<<yytext<<"\n";

@@ -1,11 +1,8 @@
-a.exe
-lex.yy.c
-y.tab.c
-y.tab.h
-test.y
-y.output
-old_lexer.l
-old_parser.y
+MPL.exe
+rules/lexer.cpp
+rules/parser.cpp
+rules/parser.hpp
+rules/parser.output
 test.c
 Old/*
-node_base.hpp.gch
+compile.sh

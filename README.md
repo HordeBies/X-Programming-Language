@@ -2,16 +2,12 @@
  A simple c like programming language compiler built using Lex and Yacc
 
 
-To compile language interpreter and run test file run this command using Git Bash
+To compile language interpreter and run test file run this command using any terminal
 ````
-$bash compile.sh [Lexer_File_Name] [Parser_File_Name] [OPTIONAL: Test_File_Name]
+make all src="{Path}"
 ````
 e.g.
 ````
-bash compile.sh lexer parser
-````
-or
-````
-bash compile.sh lexer parser test
+make all src="data/tests/test.c"
 ````
 

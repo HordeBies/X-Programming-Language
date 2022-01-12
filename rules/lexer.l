@@ -1,9 +1,7 @@
 %{
 
-#include "main.h"
-
-// static void DoBeforeEachAction(); 
-// #define YY_USER_ACTION DoBeforeEachAction();
+#include "../parse_tree/parse_tree.h"
+#include "parser.hpp"
 
 /* 
  * This flex built-in macro can be defined to provide an action which is
@@ -149,11 +147,11 @@ void InitScanner()
  */
 static void DoBeforeEachAction()
 {
-  yylloc.first_line = yylloc.last_line = yylineno;
+  /* yylloc.first_line = yylloc.last_line = yylineno;
   //printf("%s",yytext);
   yylloc.first_column = colno;
   yylloc.last_column = colno + yyleng - 1;
-  colno = colno + yyleng;
+  colno = colno + yyleng; */
 }
 
 /* Function: GetLinenumbered()
