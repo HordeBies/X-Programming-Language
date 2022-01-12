@@ -3,13 +3,6 @@
 #include "../parse_tree/parse_tree.h"
 #include "parser.hpp"
 
-/* 
- * This flex built-in macro can be defined to provide an action which is
- * always executed prior to any matched rule's action. Basically, it is
- * a way of having a piece of code common to all actions factored out to
- * this routine. It will be called once for each pattern scanned from the file, 
- * before executing its action.
- */
 static void DoBeforeEachAction();
 #define YY_USER_ACTION DoBeforeEachAction();
 
@@ -54,7 +47,7 @@ SINGLE_COMMENT     ("//"[^\n]*)
 {OPERATOR} 				{ return yytext[0]; }
 
  /* recognize two-character operators and return the correct token */
-"<="					{ return LTE; }
+"<="					          { return LTE; }
 ">="                    { return GTE; }
 "=="                    { return EQUAL; }
 "!="                    { return NOTEQUAL; }
@@ -84,11 +77,11 @@ SINGLE_COMMENT     ("//"[^\n]*)
 {DECIMAL}               { 
                            	//yylval.integerConstant = strtol(yytext, NULL, 10); 
                            	return INTEGER; 
-			 			}
+			 			            }
 {FLOAT}                 { 
                            	//yylval.doubleConstant = atof(yytext); 
                         	return DOUBLE; 
-			 			}
+			 			            }
 
  /* recognize identifiers, 
   * return the correct token and set appropriate fields of yylval 
@@ -112,25 +105,7 @@ SINGLE_COMMENT     ("//"[^\n]*)
                         }
 
 %%
-/* The closing %% above marks the end of the Rules section and the beginning
- * of the User Subroutines section. All text from here to the end of the
- * file is copied verbatim to the end of the generated lex.yy.c file.
- * This section is where you put definitions of helper functions.
- */
 
-
-/* Function: InitScanner
- * ---------------------
- * This function will be called before any calls to yylex().  It is designed
- * to give you an opportunity to do anything that must be done to initialize
- * the scanner (set global variables, configure starting state, etc.). One
- * thing it already does for you is assign the value of the global variable
- * yy_flex_debug that controls whether flex prints debugging information
- * about each token and what rule was matched. If set to false, no information
- * is printed. Setting it to true will give you a running trail that might
- * be helpful when debugging your scanner. Please be sure the variable is
- * set to false when submitting your final version.
- */
 void InitScanner()
 {
     //PrintDebug("lex", "Initializing scanner");
@@ -139,28 +114,15 @@ void InitScanner()
     colno = 1;
 }
 
-
-/* Function: DoBeforeEachAction()
- * ------------------------------
- * This function is installed as the YY_USER_ACTION. This is a place
- * to group code common to all actions.
- */
 static void DoBeforeEachAction()
 {
-  /* yylloc.first_line = yylloc.last_line = yylineno;
+  yylloc.first_line = yylloc.last_line = yylineno;
   //printf("%s",yytext);
   yylloc.first_column = colno;
   yylloc.last_column = colno + yyleng - 1;
-  colno = colno + yyleng; */
+  colno = colno + yyleng;
 }
 
-/* Function: GetLinenumbered()
- * ---------------------------
- * Returns string with contents of line numbered n or NULL if the
- * contents of that line are not available. Our scanner copies
- * each line scanned and appends each to a list so we can later
- * retrieve them to report the context for errors.
- */
 /* const char *GetLineNumbered(int num) 
 {
   if (num <= 0 || num > savedlines.NumElements())
@@ -168,6 +130,7 @@ static void DoBeforeEachAction()
 
   return savedlines.Nth(num - 1);
 } */
+
 int yywrap(void){
     return 1;
 }

@@ -1,8 +1,8 @@
 MPL.exe
+Old/*
+test.c
+compile.sh
 rules/lexer.cpp
 rules/parser.cpp
 rules/parser.hpp
 rules/parser.output
-test.c
-Old/*
-compile.sh

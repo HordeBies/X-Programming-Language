@@ -89,7 +89,7 @@ std::ofstream myfile;
 %token DOUBLE
 %token BOOL
 %token STRING
-%type<node>			VarType
+%type<node>     VarType
 /* %type <program>       Program
 %type <declList>      DeclList
 %type <decl>          Decl
@@ -159,7 +159,7 @@ std::ofstream myfile;
 %left INCREMENT DECREMENT
 %%
 
-Program     : DeclList
+Program     : DeclList {@1;}
             ;
 
 DeclList    : DeclList Decl
@@ -217,7 +217,7 @@ ForEnd 	: Expression
 		| PostfixExpr
 		;
 
-ForStmt : FOR '(' AssignExpr ';' Expression ';' ForEnd ')' StmtBlock
+ForStmt : FOR '(' AssignExpr ';' Expression ';' ForEnd ')' StmtBlock 
         ;
 
 BreakStmt   : BREAK ';'
@@ -294,15 +294,6 @@ PostfixExpr : IDENTIFIER INCREMENT
             ;
 %%
 
-/* int main(int argc, char *argv[]){
-    printf("\n\n----------- Simple Programming Language Compiler ----------- \n\n");
-    yyin = fopen(argv[1], "r");
-    //myfile.open("log.txt");
-    yyparse();
-    //myfile.close();
-    fclose(yyin);
-    return 0;
-} */
 int yyerror(char *s) {
     printf("Error in line: %d, with message %s at token: %s\n", yylineno, s, yytext);
     myfile << "Error in line: "<< yylineno << ", with message "<< s << " at token: "<<yytext<<"\n";

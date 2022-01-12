@@ -6,6 +6,8 @@ clear:
 gen:
 	flex -o rules/lexer.cpp rules/lexer.l
 	bison -d -o rules/parser.cpp rules/parser.y
+
+comp:
 	g++ -w -g -o MPL.exe main.cpp \
 		rules/lexer.cpp \
 		rules/parser.cpp
@@ -13,6 +15,7 @@ gen:
 build:
 #	@make -s clear
 	@make -s gen
+	@make -s comp
 
 run:
 #	@make -s clear
