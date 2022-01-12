@@ -1,25 +1,25 @@
-#ifndef CONSTS_H
-#define CONSTS_H
+#ifndef CONSTS
+#define CONSTS
 
 enum Operator {
-    OPR_ASSIGN = 100,       // a = b
-    OPR_ADD,                // a + b
-    OPR_SUB,                // a - b
-    OPR_U_MINUS,            // -54
-    OPR_MUL,                // a * b
-    OPR_DIV,                // a / b
-    OPR_MOD,                // a % b
-    OPR_INC,                // a++
-    OPR_DEC,                // a--
-    OPR_LOGICAL_AND,        // a && b
-    OPR_LOGICAL_OR,         // a || b
-    OPR_LOGICAL_NOT,        // !a
-    OPR_GREATER,            // a > b
-    OPR_GREATER_EQUAL,      // a >= b
-    OPR_LESS,               // a < b
-    OPR_LESS_EQUAL,         // a <= b
-    OPR_EQUAL,              // a == b
-    OPR_NOT_EQUAL,          // a != b
+    OP_ASSIGN = 100,        // a = b
+    OP_ADD,                 // a + b
+    OP_SUB,                 // a - b
+    OP_MIN,                 // -54
+    OP_MUL,                 // a * b
+    OP_DIV,                 // a / b
+    OP_MOD,                 // a % b
+    OP_INC,                 // a++
+    OP_DEC,                 // a--
+    OP_AND,                 // a && b
+    OP_OR,                  // a || b
+    OP_NOT,                 // !a
+    OP_G,                  // a > b
+    OP_GE,                 // a >= b
+    OP_L,                  // a < b
+    OP_LE,                 // a <= b
+    OP_EQ,                 // a == b
+    OP_NEQ,                 // a != b
 
     //
     // Quadruples instructions
@@ -32,14 +32,14 @@ enum Operator {
 };
 
 enum DataType {
-    DTYPE_VOID = 200,
-    DTYPE_BOOL,
-    DTYPE_CHAR,
-    DTYPE_INT,
-    DTYPE_FLOAT,
-    DTYPE_FUNC_PTR,
-    DTYPE_ERROR,
-    DTYPE_UNKNOWN
+    TYPE_VOID = 200,
+    TYPE_BOOL,
+    TYPE_INT,
+    TYPE_DOUBLE,
+    TYPE_STRING,
+    TYPE_FUNC_PTR,
+    TYPE_ERROR,
+    TYPE_UNKNOWN
 };
 
 enum ScopeType {

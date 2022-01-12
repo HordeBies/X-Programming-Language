@@ -5,7 +5,7 @@ clear:
 
 gen:
 	flex -o rules/lexer.cpp rules/lexer.l
-	bison -d -o rules/parser.cpp rules/parser.y
+	bison -d --verbose -o rules/parser.cpp rules/parser.y
 
 comp:
 	g++ -w -g -o MPL.exe main.cpp \

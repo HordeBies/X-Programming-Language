@@ -5,6 +5,7 @@
         "y.tab.h": "c",
         "iostream": "cpp",
         "string": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "vector": "cpp"
     }
 }

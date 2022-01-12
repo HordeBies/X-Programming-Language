@@ -1,149 +1,90 @@
 %{
 #include "../parse_tree/parse_tree.h"
-#include <fstream>
 
 int yylex(void);
 int yyerror(char *s);
 extern char* yytext;
 extern int yylineno;
 
-//outputting logs:
-std::ofstream myfile;
+StatementNode* programRoot = NULL;
 %} 
 
 %union {
-    //Program *program;
-    Node *node;
-    int integerConstant;
-    bool boolConstant;
-    const char *stringConstant;
-    double doubleConstant;
-    //char identifier[MaxIdentLen+1]; // +1 for terminating null
+    ScopeNode* scopeNode;
+    StatementNode* stmtNode;
+    VarDeclarationNode* varDeclNode;
+    IfNode* ifNode;
+    WhileNode* whileNode;
+    ForNode* forNode;
+    FunctionNode* functionNode;
+    FunctionInvokeNode* funcInvokeNode;
+    ReturnNode* returnNode;
+	PrintNode* printNode;
+    ExpressionNode* exprNode;
+    TypeNode* typeNode;
+    ValueNode* valueNode;
+    IdentifierNode* identifierNode;
+    StmtList* stmtList;
+    ExprList* exprList;
+    VarList* varList;
 
-
-    //Decl *decl;
-    // VarDecl *vardecl;
-    // FnDecl *fndecl;
-    // ClassDecl *classdecl;
-    // InterfaceDecl *interfacedecl;  
-    
-    //Type *simpletype;
-    // NamedType *namedtype;
-    // ArrayType *arraytype;
-    
-    // List<NamedType*> *implements;
-    // List<Decl*> *declList;
-    // List<VarDecl*> *vardecls;
-
-   
-    // StmtBlock *stmtblock;
-    // Stmt *stmt;
-    // IfStmt *ifstmt;
-    // ForStmt *forstmt;
-    // WhileStmt *whilestmt;
-    // ReturnStmt *rtnstmt;	
-    // BreakStmt *brkstmt;
-    // SwitchStmt *switchstmt;
-    // CaseStmt *casestmt;
-    // DefaultStmt *defaultstmt;
-    // PrintStmt *pntstmt;
-    // List<Stmt*> *stmts;
-    // List<CaseStmt*> *casestmts;
-    
-    // Expr *expr;
-    // Expr *optexpr;
-    // List<Expr*> *exprs;
-    // Call *call;
-    
-    // IntConstant *intconst;
-    // DoubleConstant *doubleconst;
-    // BoolConstant *boolconst;
-    // StringConstant *stringconst;
-    // NullConstant *nullconst;
-    
-    // ArithmeticExpr *arithmeticexpr;
-    // RelationalExpr *relationalexpr;
-    // EqualityExpr   *equalityexpr;
-    // LogicalExpr    *logicalexpr;
-    // AssignExpr     *assignexpr;
-    // PostfixExpr    *postfixexpr;
-    
-    // LValue *lvalue;
-    // FieldAccess *fieldaccess;
-    // ArrayAccess *arrayaccess;
+    Token token;
+    Location location;
 }
 
-%token INT_TYPE 
-%token DOUBLE_TYPE 
-%token BOOL_TYPE 
-%token STRING_TYPE 
-%token VOID_TYPE
-%token IDENTIFIER
-%token IF
-%token PRINT
-%token FOR
-%token WHILE
-%token BREAK
-%token RETURN
-%token INTEGER
-%token DOUBLE
-%token BOOL
-%token STRING
-%type<node>     VarType
-/* %type <program>       Program
-%type <declList>      DeclList
-%type <decl>          Decl
-%type <vardecl>       VarDecl
-%type <fndecl>        FnDecl
-%type <classdecl>     ClassDecl
-%type <interfacedecl> InterfaceDecl*//*
-%type <simpletype>    VarType
-%type <namedtype>     NamedType
-%type <arraytype>     ArrayType
-%type <vardecls>      Formals
-%type <vardecls>      Variables
-%type <implements>    Implements
-%type <implements>    Impl
-%type <namedtype>     Extend
-%type <decl>	      Field
-%type <declList>      Fields
-%type <decl>	      Prototype
-%type <declList>      Prototypes
-%type <vardecls>      VarDecls
-%type <stmt>          Stmt
-%type <stmts>         Stmts
-%type <stmtblock>     StmtBlock
-%type <ifstmt>        IfStmt
-%type <whilestmt>     WhileStmt
-%type <forstmt>	      ForStmt
-%type <rtnstmt>       ReturnStmt
-%type <brkstmt>	      BreakStmt
-%type <switchstmt>    SwitchStmt
-%type <casestmts>     Cases
-%type <casestmt>      Case
-%type <defaultstmt>   Default
-%type <pntstmt>	      PrintStmt
-%type <expr>          Expr
-%type <expr>          OptExpr
-%type <exprs>         Exprs
-%type <exprs>	      Actuals
-%type <expr>	      Constant
-%type <intconst>      IntConstant 
-%type <boolconst>     BoolConstant
-%type <stringconst>   StringConstant
-%type <doubleconst>   DoubleConstant
-%type <nullconst>     NullConstant
-%type <call>          Call
-%type <arithmeticexpr> ArithmeticExpr
-%type <relationalexpr> RelationalExpr
-%type <equalityexpr>   EqualityExpr
-%type <logicalexpr>    LogicalExpr
-%type <assignexpr>     AssignExpr
-%type <postfixexpr>    PostfixExpr
-%type <lvalue>        LValue
-%type <fieldaccess>   FieldAccess
-%type <arrayaccess>   ArrayAccess */
+// TERMINALS
+%token<location> INT_TYPE 
+%token<location> DOUBLE_TYPE 
+%token<location> BOOL_TYPE 
+%token<location> STRING_TYPE 
+%token<location> VOID_TYPE
 
+%token<location> OR
+%token<location> AND
+%token<location> EQUAL
+%token<location> NOTEQUAL
+%token<location> LTE
+%token<location> GTE
+%token<location> INCREMENT
+%token<location> DECREMENT
+
+%token<location> IF
+%token<location> ELSE
+%token<location> PRINT
+%token<location> FOR
+%token<location> WHILE
+%token<location> BREAK
+%token<location> RETURN
+
+%token<token> IDENTIFIER
+%token<token> INTEGER
+%token<token> DOUBLE
+%token<token> BOOL
+%token<token> STRING
+
+// NON-TERMINALS
+
+%type<scopeNode>           	Program StmtBlock
+%type<stmtNode>            	Statement Decl ForStart
+%type<stmtList>            	Statements DeclList
+%type<varDeclNode>         	VarDecl
+%type<ifNode>              	IfStmt
+%type<whileNode>           	WhileStmt
+%type<forNode>             	ForStmt
+%type<functionNode>        	FuncDecl
+%type<funcInvokeNode>    	FuncInvoke
+%type<returnNode>      		ReturnStmt
+%type<printNode>			PrintStmt
+%type<varList>             	Params
+%type<exprList>            	Args 
+%type<exprNode>            	Expression AssignExpr ArithmeticExpr EqualityExpr RelationalExpr LogicalExpr ForEnd PostfixExpr 
+%type<typeNode>            	VarType
+%type<valueNode>           	Constant
+%type<identifierNode>      	Identifier
+
+%type <location>            '-' '+' '*' '/' '%' '!' '<' '>' '=' '(' ')' '{' '}' ',' ';'  //'
+
+// Precedence
 // https://docs.microsoft.com/en-us/cpp/c-language/precedence-and-order-of-evaluation?view=msvc-170#precedence-and-associativity-of-c-operators
 %nonassoc PRECELSE
 %nonassoc ELSE
@@ -159,142 +100,145 @@ std::ofstream myfile;
 %left INCREMENT DECREMENT
 %%
 
-Program     : DeclList {@1;}
+Program     : DeclList 								{
+														@1; 
+														$$ = NULL;
+
+														programRoot = new ScopeNode((*$1)[0]->loc, *$1);
+													}
             ;
 
-DeclList    : DeclList Decl
-            | Decl
+DeclList    : DeclList Decl							{ $$ = $1; $$->push_back($2); }
+            | Decl									{ $$ = new StmtList(); $$->push_back($1); }
             ;
 
-Decl    : AssignExpr ';'
-        | DeclarationStmt
-        | FuncDecl
+Decl    : VarDecl ';'								{ $$ = $1;}
+        | FuncDecl									{ $$ = $1;}
         ;
 
-VarType : INT_TYPE 	 	
-        | DOUBLE_TYPE 	
-        | BOOL_TYPE	 	
-        | STRING_TYPE 	
+VarType : INT_TYPE 	 								{ $$ = new TypeNode($1,TYPE_INT); }
+        | DOUBLE_TYPE 								{ $$ = new TypeNode($1,TYPE_DOUBLE); }
+        | BOOL_TYPE	 								{ $$ = new TypeNode($1,TYPE_BOOL); }
+        | STRING_TYPE 								{ $$ = new TypeNode($1,TYPE_STRING); }
         ;
 
-FuncDecl    : VarType IDENTIFIER '(' Params ')' StmtBlock
-            | VOID_TYPE IDENTIFIER '(' Params ')' StmtBlock
+FuncDecl    : VarType Identifier '(' Params ')' StmtBlock		{ $$ = new FunctionNode($1, $2, *$4, $6); }
+            | VOID_TYPE Identifier '(' Params ')' StmtBlock		{ $$ = new FunctionNode(new TypeNode($1, TYPE_VOID), $2, *$4, $6); }
             ;
 
-Params  : Params ',' VarType IDENTIFIER
-        | VarType IDENTIFIER
-        |
+Params  : Params ',' VarType Identifier				{ $$ = $1; $$->push_back(new VarDeclarationNode($3, $4)); }
+        | VarType Identifier						{ $$ = new VarList(); $$->push_back(new VarDeclarationNode($1, $2)); }
+        |											{ $$ = new VarList(); }
         ;
 
-StmtBlock   : '{' Statements '}'
-            | '{' '}'
+StmtBlock   : '{' Statements '}'					{ $$ = new ScopeNode($1, *$2); }
+            | '{' '}'								{ $$ = new ScopeNode($1); }
             ;
 
-Statements  : Statements Statement
-            | Statement
+Statements  : Statements Statement					{ $$ = $1; $$->push_back($2); }
+            | Statement								{ $$ = new StmtList(); $$->push_back($1); }
             ;
 
-Statement   : Expression ';'
-            | DeclarationStmt
-            | IfStmt
-            | WhileStmt
-            | ForStmt
-            | BreakStmt
-            | ReturnStmt
-            | PrintStmt
+Statement   : Expression ';'						{ $$ = new ExprContainerNode($1->loc, $1); }
+            | VarDecl ';'							{ $$ = $1; }
+            | IfStmt								{ $$ = $1; }
+            | WhileStmt								{ $$ = $1; }
+            | ForStmt								{ $$ = $1; }
+            | BREAK ';'								{ $$ = new BreakStmtNode($1); }
+            | ReturnStmt							{ $$ = $1; }
+            | PrintStmt								{ $$ = $1; }
             ;
 
-DeclarationStmt : VarType IDENTIFIER ';'
-                ;
-
-IfStmt  : IF '(' Expression ')' StmtBlock ELSE StmtBlock
-        | IF '(' Expression ')' StmtBlock %prec PRECELSE
-        ;
-
-WhileStmt   : WHILE '(' Expression ')' StmtBlock
-            ;
-ForEnd 	: Expression
-		| PostfixExpr
+VarDecl : VarType Identifier						{ $$ = new VarDeclarationNode($1, $2); }
+		| VarType Identifier '=' Expression 		{ $$ = new VarDeclarationNode($1, $2, $4); }
 		;
 
-ForStmt : FOR '(' AssignExpr ';' Expression ';' ForEnd ')' StmtBlock 
+IfStmt  : IF '(' Expression ')' StmtBlock ELSE StmtBlock	{ $$ = new IfNode($1, $3, $5, $7); }
+        | IF '(' Expression ')' StmtBlock %prec PRECELSE	{ $$ = new IfNode($1, $3, $5); }
         ;
 
-BreakStmt   : BREAK ';'
+WhileStmt   : WHILE '(' Expression ')' StmtBlock	{ $$ = new WhileNode($1, $3, $5); }
             ;
 
-ReturnStmt  : RETURN ';'
-            | RETURN Expression ';'
+ForEnd 	: Expression								
+        | PostfixExpr								
+        ;
+
+ForStart	: AssignExpr							{ $$ = $1; }
+			| VarDecl								{ $$ = $1; }
+			;
+
+ForStmt : FOR '(' ForStart ';' Expression ';' ForEnd ')' StmtBlock	{ $$ = new ForNode($1, $3, $5, $7, $9); }
+        ;
+
+ReturnStmt  : RETURN ';'							{ $$ = new ReturnNode($1,NULL); }
+            | RETURN Expression ';'					{ $$ = new ReturnNode($1,$2); }
             ;
 
-PrintArgs   : IDENTIFIER ',' PrintArgs
-            | IDENTIFIER
-            |
-            ; 
-
-PrintStmt   : PRINT '(' STRING ',' PrintArgs ')' ';'
-            | PRINT '(' IDENTIFIER ')' ';' 
-            | PRINT '(' STRING ')' ';'
+PrintStmt   : PRINT '(' Identifier ')' ';' 				{$$ = new PrintNode($1, "", $3);}
+            | PRINT '(' STRING ')' ';'					{$$ = new PrintNode($1, $3.value, NULL);}
+			| PRINT '(' STRING ',' Identifier ')' ';'	{$$ = new PrintNode($1, $3.value, $5);}
             ;
 
-Expression  : AssignExpr
-            | Constant 
-            | IDENTIFIER
-            | FuncInvoke
-            | '(' Expression ')'
+Expression  : AssignExpr							{ $$ = $1; }
+            | Constant 								{ $$ = $1; }
+            | Identifier							{ $$ = $1; }
+            | FuncInvoke							{ $$ = $1; }
+            | '(' Expression ')'					{ $$ = new ExprContainerNode($1, $2); }
             | ArithmeticExpr
             | EqualityExpr
             | RelationalExpr
             | LogicalExpr
             ;
 
-AssignExpr  : IDENTIFIER '=' Expression
-            | VarType IDENTIFIER '=' Expression
+AssignExpr  : Identifier '=' Expression				{ $$ = new AssignOprNode($2, $1, $3); }
             ;
 
-Constant    : INTEGER
-            | DOUBLE
-            | BOOL
-            | STRING
+Constant    : INTEGER								{ $$ = new ValueNode($1.loc, TYPE_INT, $1.value); }
+            | DOUBLE								{ $$ = new ValueNode($1.loc, TYPE_DOUBLE, $1.value); }
+            | BOOL									{ $$ = new ValueNode($1.loc, TYPE_BOOL, $1.value); }
+            | STRING								{ $$ = new ValueNode($1.loc, TYPE_STRING, $1.value); }
             ;
 
-FuncInvoke  : IDENTIFIER '(' Args ')' 
+FuncInvoke  : Identifier '(' Args ')' 				{ $$ = new FunctionInvokeNode($1, *$3); }
             ;
 
-Args    : Args ',' Expression
-        | Expression
-        |
+Args    : Args ',' Expression						{ $$ = $1; $$->push_back($3); }
+        | Expression								{ $$ = new ExprList(); $$->push_back($1); }
+        |											{ $$ = new ExprList(); }
         ;
 
-ArithmeticExpr  : Expression '+' Expression 
-                | Expression '-' Expression 
-                | Expression '*' Expression 
-                | Expression '/' Expression 
-                | Expression '%' Expression 
-                | '-' Expression %prec UMINUS 
+ArithmeticExpr  : Expression '+' Expression 		{ $$ = new BinaryOprNode($2, OP_ADD, $1, $3); }
+                | Expression '-' Expression 		{ $$ = new BinaryOprNode($2, OP_SUB, $1, $3); }
+                | Expression '*' Expression 		{ $$ = new BinaryOprNode($2, OP_MUL, $1, $3); }
+                | Expression '/' Expression 		{ $$ = new BinaryOprNode($2, OP_DIV, $1, $3); }
+                | Expression '%' Expression 		{ $$ = new BinaryOprNode($2, OP_MOD, $1, $3); }
+                | '-' Expression %prec UMINUS 		{ $$ = new UnaryOprNode($1, OP_MIN, $2); }
                 ;
 
-EqualityExpr    : Expression EQUAL Expression
-                | Expression NOTEQUAL Expression
+EqualityExpr    : Expression EQUAL Expression		{ $$ = new BinaryOprNode($2, OP_EQ, $1, $3); }
+                | Expression NOTEQUAL Expression	{ $$ = new BinaryOprNode($2, OP_NEQ, $1, $3); }
                 ;
 
-RelationalExpr  : Expression '<' Expression
-                | Expression '>' Expression
-                | Expression LTE Expression
-                | Expression GTE Expression
+RelationalExpr  : Expression '<' Expression			{ $$ = new BinaryOprNode($2, OP_G, $1, $3); }
+                | Expression '>' Expression			{ $$ = new BinaryOprNode($2, OP_L, $1, $3); }
+                | Expression LTE Expression			{ $$ = new BinaryOprNode($2, OP_LE, $1, $3); }
+                | Expression GTE Expression			{ $$ = new BinaryOprNode($2, OP_GE, $1, $3); }
                 ;
 
-LogicalExpr : Expression AND Expression
-            | Expression OR Expression
-            | '!' Expression
+LogicalExpr : Expression AND Expression				{ $$ = new BinaryOprNode($2, OP_AND, $1, $3); }
+            | Expression OR Expression				{ $$ = new BinaryOprNode($2, OP_OR, $1, $3); }
+            | '!' Expression						{ $$ = new UnaryOprNode($1, OP_NOT, $2); }
             ;
 
-PostfixExpr : IDENTIFIER INCREMENT 
-            | IDENTIFIER DECREMENT 
+PostfixExpr : Identifier INCREMENT 					{ $$ = new UnaryOprNode($2, OP_INC, $1); }
+            | Identifier DECREMENT 					{ $$ = new UnaryOprNode($2, OP_DEC, $1); }
             ;
+
+Identifier	: IDENTIFIER							{ $$ = new IdentifierNode($1.loc, $1.value); }
+			;
 %%
 
 int yyerror(char *s) {
-    printf("Error in line: %d, with message %s at token: %s\n", yylineno, s, yytext);
-    myfile << "Error in line: "<< yylineno << ", with message "<< s << " at token: "<<yytext<<"\n";
+    printf("Error in line: %d, with message %s at token '%s' while parsing\n", yylineno, s, yytext);
 }
