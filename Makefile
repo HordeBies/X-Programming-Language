@@ -11,11 +11,11 @@ gen:
 		rules/parser.cpp
 
 build:
-	@make -s clear
+#	@make -s clear
 	@make -s gen
 
 run:
-	@make -s clear
+#	@make -s clear
 	./MPL.exe  $(src) -o data/out.quad -s data/symbol.table
 
 all:
