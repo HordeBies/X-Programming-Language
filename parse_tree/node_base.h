@@ -8,6 +8,9 @@
 #include "../utils/constants.h"
 #include "../utils/utilities.h"
 
+struct Analyzer;
+struct Generator;
+
 struct Node;
 struct StatementNode;
 struct DeclarationNode;
@@ -31,13 +34,29 @@ typedef struct Node
         this->loc = loc;
         //std::cout <<this->loc.lineNum << "\t" << this->loc.pos << "\t" << this->loc.len << "\n";
     }
-} Node;
+
+    virtual bool Analyze(Analyzer* context) {
+        return true;
+    }
+
+    virtual std::string generateQuad(Generator* context) {
+        return "";
+    }
+
+    virtual std::string toString() {
+        return "";
+    }
+};
 
 struct StatementNode : public Node
 {
     StatementNode() {}
 
     StatementNode(const Location& loc) : Node(loc) {}
+
+    virtual std::string toString(int ind = 0) {
+        return std::string(ind, ' ') + ";" ;
+    }
 };
 
 struct DeclarationNode : public StatementNode
@@ -51,6 +70,9 @@ struct DeclarationNode : public StatementNode
 
     DeclarationNode(const Location& loc) : StatementNode(loc) {}
 
+    virtual std::string declaredHeader() = 0;
+
+    virtual std::string declaredType() = 0;
 };
 
 struct ExpressionNode : public StatementNode
@@ -64,6 +86,23 @@ struct ExpressionNode : public StatementNode
 
     ExpressionNode(const Location& loc) : StatementNode(loc) {}
 
+    virtual int getConstIntValue() {
+        return -1;
+    }
+
+    virtual bool Analyze(Analyzer* context) {
+        return Analyze(context, false);
+    }
+
+    virtual bool Analyze(Analyzer* context, bool valueUsed) {
+        used = valueUsed;
+        return true;
+    }
+
+    virtual std::string exprTypeStr() {
+        return reference ? reference->declaredType() : Utils::dtypeToStr(type);
+    }
+
 };
 
 struct TypeNode : public Node
@@ -74,6 +113,9 @@ struct TypeNode : public Node
         this->type = type;
     }
 
+    virtual std::string toString(int ind = 0) {
+        return std::string(ind, ' ') + Utils::dtypeToStr(type);
+    }
 };
 
 #endif

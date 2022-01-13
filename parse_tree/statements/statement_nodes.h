@@ -15,6 +15,17 @@ struct ScopeNode : public StatementNode
     ScopeNode(const Location& loc, const StmtList& statements) : StatementNode(loc) {
         this->statements = statements;
     }
+
+    virtual bool Analyze(Analyzer* context);
+
+    virtual std::string toString(int ind = 0) {
+        std::string ret = std::string(ind, ' ') + "{\n";
+        for (int i = 0; i < statements.size(); ++i) {
+            ret += statements[i]->toString(ind + 4) + "\n";
+        }
+        ret += std::string(ind, ' ') + "}";
+        return ret;
+    }
 };
 
 struct VarDeclarationNode : public DeclarationNode {
@@ -26,6 +37,24 @@ struct VarDeclarationNode : public DeclarationNode {
         this->id = id;
         this->value = value;
         this->initialized = (value != NULL);
+    }
+
+    virtual bool Analyze(Analyzer* context);
+
+    virtual std::string toString(int ind = 0) {
+        std::string ret = std::string(ind, ' ') + declaredHeader();
+        if (value) {
+            ret += " = " + value->toString();
+        }
+        return ret;
+    }
+
+    virtual std::string declaredHeader() {
+        return type->toString() + " " + id->name;
+    }
+
+    virtual std::string declaredType() {
+        return type->toString();
     }
 };
 

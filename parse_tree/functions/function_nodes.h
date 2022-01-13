@@ -16,6 +16,36 @@ struct FunctionNode : public DeclarationNode
         this->body = body;
         this->initialized = true;
     }
+
+    virtual bool Analyze(Analyzer* context);
+
+    virtual std::string declaredHeader() {
+        std::string ret = type->toString() + " " + id->name + "(";
+        for (int i = 0; i < paramList.size(); ++i) {
+            ret += (i > 0 ? ", " : "") + paramList[i]->type->toString();
+        }
+        ret += ")";
+        return ret;
+    }
+
+    virtual std::string declaredType() {
+        std::string ret = type->toString() + "(*)(";
+        for (int i = 0; i < paramList.size(); ++i) {
+            ret += (i > 0 ? ", " : "") + paramList[i]->type->toString();
+        }
+        ret += ")";
+        return ret;
+    }
+
+    virtual std::string toString(int ind = 0) {
+        std::string ret = std::string(ind, ' ') + type->toString() + " " + id->toString() + "(";
+        for (int i = 0; i < paramList.size(); ++i) {
+            ret += (i > 0 ? ", " : "") + paramList[i]->toString();
+        }
+        ret += ")\n";
+        ret += body->toString(ind);
+        return ret;
+    }
 };
 
 struct FunctionInvokeNode : public ExpressionNode 
@@ -28,6 +58,17 @@ struct FunctionInvokeNode : public ExpressionNode
         this->id = id;
         this->argList = argList;
     }
+
+    virtual bool Analyze(Analyzer* context, bool valueUsed);
+
+    virtual std::string toString(int ind = 0) {
+        std::string ret = std::string(ind, ' ') + id->name + "(";
+        for (int i = 0; i < argList.size(); ++i) {
+            ret += (i > 0 ? ", " : "") + argList[i]->toString();
+        }
+        ret += ")";
+        return ret;
+    }
 };
 
 struct ReturnNode : public StatementNode 
@@ -38,6 +79,16 @@ struct ReturnNode : public StatementNode
     ReturnNode(const Location& loc, ExpressionNode* value) : StatementNode(loc) {
         this->value = value;
     }
+
+    virtual bool Analyze(Analyzer* context);
+
+    virtual std::string toString(int ind = 0) {
+        std::string ret = std::string(ind, ' ') + "return";
+        if (value) {
+            ret += " " + value->toString();
+        }
+        return ret;
+    }
 };
 
 struct PrintNode : public StatementNode
@@ -47,6 +98,13 @@ struct PrintNode : public StatementNode
     PrintNode(const Location& loc, std::string format, IdentifierNode* id) : StatementNode(loc){
         this->format = format;
         this->id = id;
+    }
+
+    virtual bool Analyze(Analyzer* context);
+
+    virtual std::string toString(int ind = 0){
+        std::string ret = std::string(ind,' ') + "print(" + format + id->toString() + ")";
+        return ret;
     }
 };
 

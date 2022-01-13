@@ -10,7 +10,16 @@ gen:
 comp:
 	g++ -w -g -o MPL.exe main.cpp \
 		rules/lexer.cpp \
-		rules/parser.cpp
+		rules/parser.cpp \
+		parse_tree/branches/branch_analyzer.cpp \
+		parse_tree/branches/branch_generator.cpp \
+		parse_tree/expressions/expression_analyzer.cpp \
+		parse_tree/expressions/expression_evaluator.cpp \
+		parse_tree/expressions/expression_generator.cpp \
+		parse_tree/functions/function_generator.cpp \
+		parse_tree/functions/function_analyzer.cpp \
+		parse_tree/statements/statement_analyzer.cpp \
+		parse_tree/statements/statement_generator.cpp \
 
 build:
 #	@make -s clear

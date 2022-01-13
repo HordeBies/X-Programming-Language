@@ -16,6 +16,20 @@ struct IfNode : public StatementNode {
         this->ifBody = ifBody;
         this->elseBody = elseBody;
     }
+
+    virtual bool Analyze(Analyzer* context);
+
+    virtual std::string toString(int ind = 0) {
+        std::string ret = std::string(ind, ' ') + "if (" + cond->toString() + ")\n";
+        ret += ifBody->toString(ind + (dynamic_cast<ScopeNode*>(ifBody) ? 0 : 4));
+
+        if (elseBody) {
+            ret += "\n" + std::string(ind, ' ') + "else\n";
+            ret += elseBody->toString(ind + (dynamic_cast<ScopeNode*>(elseBody) ? 0 : 4));
+        }
+
+        return ret;
+    }
 };
 
 struct WhileNode : public StatementNode {
@@ -25,6 +39,14 @@ struct WhileNode : public StatementNode {
     WhileNode(const Location& loc, ExpressionNode* cond, ScopeNode* body) : StatementNode(loc) {
         this->cond = cond;
         this->body = body;
+    }
+
+    virtual bool Analyze(Analyzer* context);
+
+    virtual std::string toString(int ind = 0) {
+        std::string ret = std::string(ind, ' ') + "while (" + cond->toString() + ") \n";
+        ret += body->toString(ind + (dynamic_cast<ScopeNode*>(body) ? 0 : 4));
+        return ret;
     }
 };
 
@@ -41,11 +63,28 @@ struct ForNode : public StatementNode {
         this->inc = inc;
         this->body = body;
     }
+
+    virtual bool Analyze(Analyzer* context);
+
+    virtual std::string toString(int ind = 0) {
+        std::string ret = std::string(ind, ' ') + "for (";
+        ret += (initStmt ? initStmt->toString() : "") + ";";
+        ret += (cond ? cond->toString() : "") + ";";
+        ret += (inc ? inc->toString() : "") + ")\n";
+        ret += body->toString(ind + (dynamic_cast<ScopeNode*>(body) ? 0 : 4));
+        return ret;
+    }
 };
 
 struct BreakStmtNode : public StatementNode {
 
     BreakStmtNode(const Location& loc) : StatementNode(loc) {}
+
+    virtual bool Analyze(Analyzer* context);
+
+    virtual std::string toString(int ind = 0) {
+        return std::string(ind, ' ') + "break";
+    }
 };
 
 #endif

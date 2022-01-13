@@ -1,3 +1,5 @@
+#include "compile/analyzer.h"
+#include "compile/generator.h"
 #include "utils/utilities.h"
 #include "utils/constants.h"
 #include "parse_tree/parse_tree.h"
@@ -15,9 +17,9 @@ int main(int argc, char *argv[]){
     
     yyparse();
 
-    //Analyze parse tree here
+    Analyzer analyzer(argv[1]);
 
-    if(true) //if no error while anaylzing
+    if(programRoot != NULL && programRoot->Analyze(&analyzer))
     {
         //Generate SymbolTable and Quads   
     }   
