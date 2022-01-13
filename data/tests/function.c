@@ -8,7 +8,7 @@ bool isEven(int a){
 void main(){
     int v1 = 13;
     int v2 = v1*2-10;
-    int res = sum(a,b) / 2;
+    int res = sum(v1,v2) / 2;
     printf(res);
     bool v2_even = isEven(v2);
     printf(v2_even);
