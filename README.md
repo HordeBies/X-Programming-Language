@@ -1,4 +1,4 @@
-# My Programming Language
+# X Programming Language
  A simple c like programming language compiler built using Lex and Yacc
 
 # Requirements
