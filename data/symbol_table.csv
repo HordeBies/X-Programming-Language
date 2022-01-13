@@ -1,14 +1,12 @@
 scope,type,identifier,alias,used
-0,int,a,a,1
-0,int,b,b,2
-0,int,c,c,4
-0,int(*)(int),test,test,1
-1,int,arg1,arg1,1
-2,int,a,a_1,1
-0,void(*)(),main,main,0
-4,int,d,d,1
-4,int,d,d,2
-2,int,d,d,2
-3,int,i,i,3
-4,int,f,f,1
+Global,int,i,i,0
+Global,string,si,si,0
+Global,bool,bi,bi,0
+Global,double,di,di,0
+Global,void(*)(),main,main,0
+Local,int,i,i_1,2
+Local,string,si,si_1,0
+Local,bool,bi,bi_1,0
+Local,double,di,di_1,0
+Local,int,sv,sv,0
 
