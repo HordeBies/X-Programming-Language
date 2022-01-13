@@ -31,5 +31,6 @@ run:
 	./XPL.exe  $(src) -o data/out.quad -s data/symbol.table
 
 all:
+	@make -s clear
 	@make -s build
 	@make -s run
