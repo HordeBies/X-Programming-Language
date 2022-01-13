@@ -18,7 +18,7 @@ std::string outputFilename = "data/quads";
 std::string symbolTableFilename = "data/symbol_table.csv";
 
 int main(int argc, char *argv[]){
-    printf("\n\n----------- My Programming Language Compiler ----------- \n\n");
+    printf("\n\n----------- X Programming Language Compiler ----------- \n\n");
     yyin = fopen(argv[1], "r");
     printf("Parsing...\n");
     yyparse();

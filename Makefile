@@ -8,7 +8,7 @@ gen:
 	bison -d --verbose -o rules/parser.cpp rules/parser.y
 
 comp:
-	g++ -w -g -o MPL.exe main.cpp \
+	g++ -w -g -o XPL.exe main.cpp \
 		rules/lexer.cpp \
 		rules/parser.cpp \
 		parse_tree/branches/branch_analyzer.cpp \
@@ -28,7 +28,7 @@ build:
 
 run:
 #	@make -s clear
-	./MPL.exe  $(src) -o data/out.quad -s data/symbol.table
+	./XPL.exe  $(src) -o data/out.quad -s data/symbol.table
 
 all:
 	@make -s build
