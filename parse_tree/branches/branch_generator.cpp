@@ -17,7 +17,9 @@ std::string IfNode::GenerateQuad(Generator* context){
     
     ret += ifBody->GenerateQuad(context);
 
+
     if (elseBody) {
+        ret += "IF_"+label+"_E" + " # # " + Utils::oprToQuad(OP_JMP) + "\n";
         ret += "IFE_"+label+"_B:\n";
         ret += elseBody->GenerateQuad(context);
     }
