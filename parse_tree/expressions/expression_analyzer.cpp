@@ -40,7 +40,7 @@ bool AssignOprNode::Analyze(Analyzer* context, bool valueUsed)
 
     type = lhs->type;
     reference = lhs->reference;
-    constant = lhs->constant;
+    constant = false;
     used = valueUsed;
 
     reference->initialized = true;
@@ -69,7 +69,7 @@ bool BinaryOprNode::Analyze(Analyzer* context, bool valueUsed)
         type = std::max(lhs->type, rhs->type);
     }
 
-    constant = (lhs->constant && rhs->constant);
+    constant = false;
     used = valueUsed;
 
     return true;
@@ -100,7 +100,7 @@ bool UnaryOprNode::Analyze(Analyzer* context, bool valueUsed)
 
     type = (Utils::isLogicalOpr(opr) ? TYPE_BOOL : expr->type);
     reference =  NULL;
-    constant = expr->constant;
+    constant = false;
     used = valueUsed;
 
     return true;

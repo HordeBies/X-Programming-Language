@@ -1,0 +1,58 @@
+a 31 # LOAD
+t0 5 # NEG
+b t0 # LOAD
+t1 b # NEG
+c t1 # LOAD
+test_B:
+arg1 # # POP
+t2 66 arg1 ADD
+a_1 t2 # LOAD
+t3 a_1 11 ADD
+t3 # # PUSH
+# # # JB
+test_E:
+main_B:
+t4 22 c MUL
+t5 b t4 ADD
+a t5 # LOAD
+a # # PUSH
+test_B # # JL
+t6 # # POP
+c t6 # LOAD
+"test print" c # PR
+t7 c 10 GT
+t7 IFE_0_B # JZ
+d 11 # LOAD
+t8 d 5 GT
+t8 IF_1_E # JZ
+"2.if"  # # PR
+IF_1_E:
+t9 c 1 ADD
+d t9 # LOAD
+IFE_0_B:
+d 99 # LOAD
+t10 d d ADD
+c t10 # LOAD
+"1.ifelse"  # # PR
+IF_0_E:
+d 16 # LOAD
+W_0_B:
+t11 d 31 LT
+t11 W_0_E JZ
+t12 d 1 ADD
+d t12 # LOAD
+W_0_B # # JMP
+W_0_E:
+i 19 # LOAD
+F_0_B:
+t13 i 30 LT
+t13 F_0_E JZ
+t14 i 5 ADD
+f t14 # LOAD
+# f # PR
+F_0_E # # JMP
+i # # INC
+F_0_B # # JMP
+F_0_E:
+main_E:
+

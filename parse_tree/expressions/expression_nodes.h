@@ -17,6 +17,8 @@ struct ExprContainerNode : ExpressionNode
 
     virtual bool Analyze(Analyzer* context, bool valueUsed);
 
+    virtual std::string GenerateQuad(Generator* context);
+
     virtual std::string toString(int ind = 0) {
         return expr->toString(ind);
     }
@@ -33,6 +35,8 @@ struct AssignOprNode : public ExpressionNode
     }
 
     virtual bool Analyze(Analyzer* context, bool valueUsed);
+
+    virtual std::string GenerateQuad(Generator* context);
 
     virtual std::string toString(int ind = 0) {
         return std::string(ind, ' ') + "(" + lhs->toString() + " = " + rhs->toString() + ")";
@@ -54,6 +58,8 @@ struct BinaryOprNode : public ExpressionNode
     virtual int getConstIntValue();
 
     virtual bool Analyze(Analyzer* context, bool valueUsed);
+
+    virtual std::string GenerateQuad(Generator* context);
 
     virtual std::string getOpr() {
         return "binary operator '" + Utils::oprToStr(opr) + "'";
@@ -77,6 +83,8 @@ struct UnaryOprNode : public ExpressionNode
     virtual int getConstIntValue();
 
     virtual bool Analyze(Analyzer* context, bool valueUsed);
+
+    virtual std::string GenerateQuad(Generator* context);
 
     virtual std::string getOpr() {
         return "unary operator '" + Utils::oprToStr(opr) + "'";
@@ -102,6 +110,8 @@ struct IdentifierNode : public ExpressionNode
 
     virtual bool Analyze(Analyzer* context, bool valueUsed);
 
+    virtual std::string GenerateQuad(Generator* context);
+
     virtual std::string toString(int ind = 0) {
         return std::string(ind, ' ') + name;
     }
@@ -117,6 +127,8 @@ struct ValueNode : public ExpressionNode {
     }
 
     virtual int getConstIntValue();
+
+    virtual std::string GenerateQuad(Generator* context);
 
     virtual std::string toString(int ind = 0) {
         return std::string(ind, ' ') + value;

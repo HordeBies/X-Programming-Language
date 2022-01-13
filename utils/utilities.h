@@ -135,6 +135,91 @@ struct Utils{
         }
         return "#";
     }
+
+    static std::string dtypeToQuad(DataType type) {
+        switch (type) {
+            case TYPE_VOID:
+                return "VOID";
+            case TYPE_BOOL:
+                return "BOOL";
+            case TYPE_STRING:
+                return "STR";
+            case TYPE_INT:
+                return "INT";
+            case TYPE_DOUBLE:
+                return "DOUBLE";
+            case TYPE_FUNC_PTR:
+                return "FNCPTR";
+            case TYPE_ERROR:
+                return "TYPERR";
+        }
+
+        return "unknown";
+    }
+
+    static std::string dtypeConvQuad(DataType t1, DataType t2) {
+        return (t1 != t2 ? dtypeToQuad(t1) + "_TO_" + dtypeToQuad(t2) + "\n" : "");
+    }
+
+    static std::string oprToQuad(Operator opr) 
+    {   
+        switch (opr)
+        {
+            case OP_ADD:
+                return "ADD";
+            case OP_SUB:
+				return "SUB";     
+            case OP_MUL:
+                return "MUL";              
+            case OP_MIN:
+                return "NEG";        
+            case OP_DIV:
+                return "DIV";
+            case OP_MOD:
+                return "MOD";   
+            case OP_INC:
+                return "INC";      
+            case OP_DEC:
+                return "DEC";           
+            case OP_AND:
+                return "AND";            
+            case OP_OR:
+                return "OR";       
+            case OP_NOT:
+                return "NOT";            
+            case OP_G:
+                return "GT";             
+            case OP_GE:
+                return "GTE";          
+            case OP_L:
+                return "LT";             
+            case OP_LE:
+                return "LTE";              
+            case OP_EQ:
+                return "EQ";          
+            case OP_NEQ:
+                return "NEQ";
+            case OP_PUSH:
+				return "PUSH";
+			case OP_POP:
+				return "POP";
+            case OP_LOAD:
+                return "LOAD";
+            case OP_JNZ:
+                return "JNZ";
+            case OP_JZ:
+                return "JZ";
+            case OP_JL:
+                return "JL";
+            case OP_JB:
+                return "JB";
+            case OP_JMP:
+                return "JMP";
+            case OP_PR:
+                return "PR";
+        }
+        return "#";
+    }
 };
 
 #endif

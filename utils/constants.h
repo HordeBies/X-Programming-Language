@@ -14,21 +14,25 @@ enum Operator {
     OP_AND,                 // a && b
     OP_OR,                  // a || b
     OP_NOT,                 // !a
-    OP_G,                  // a > b
-    OP_GE,                 // a >= b
-    OP_L,                  // a < b
-    OP_LE,                 // a <= b
-    OP_EQ,                 // a == b
+    OP_G,                   // a > b
+    OP_GE,                  // a >= b
+    OP_L,                   // a < b
+    OP_LE,                  // a <= b
+    OP_EQ,                  // a == b
     OP_NEQ,                 // a != b
 
     //
     // Quadruples instructions
     //
-	OPR_PUSH,				// PUSH X, push to the stack
-	OPR_POP, 				// POP A, pop last element from the stack
-	OPR_JMP,				// JMP L1, unconditional jump
-    OPR_JNZ,                // JNZ L1, jmp if the top of the stack is not zero and pops it.
-	OPR_JZ, 				// JZ L1, jmp if the top of the stack is zero and pops it.
+    OP_LOAD,
+	OP_PUSH,				// PUSH X, push to the stack
+	OP_POP, 				// POP A, pop last element from the stack
+	OP_JMP,				    // JMP L1, unconditional jump to L1
+    OP_JNZ,                 // JNZ X L1, jmp to L1 if X is not zero.
+	OP_JZ, 				    // JZ X L1, jmp to L1 if X is zero.
+    OP_JL,                  // JL L1 , jmp to L1 and send return point to $ra
+    OP_JB,                  // JB , jmp back using $ra provided from stack
+    OP_PR,                  // PR STREAM X , syscall print with char stream and identifier value
 };
 
 enum DataType {

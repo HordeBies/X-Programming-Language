@@ -3,6 +3,8 @@
 
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <iomanip>
 #include <vector>
 #include <stack>
 #include <unordered_map>
@@ -110,7 +112,7 @@ public:
         int num = aliases[sym->id->name]++;
 
         if (num > 0) {
-            sym->alias = sym->id->name + "@" + std::to_string(num);
+            sym->alias = sym->id->name + "_" + std::to_string(num);
         } else {
             sym->alias = sym->id->name;
         }
@@ -147,6 +149,25 @@ public:
         }
 
         return false;
+    }
+
+    std::string getSymbolTableStr() {
+        std::stringstream ss;
+
+        ss << "scope,type,identifier,alias,used\n";
+
+        for (int i = 0; i < symbols.size(); ++i) {
+            int scope = symbols[i].first;
+            DeclarationNode* sym = symbols[i].second;
+
+            ss << scope;
+            ss << "," << sym->declaredType();
+            ss << "," << sym->id->name;
+            ss << "," << sym->alias;
+            ss << "," << sym->used << "\n";
+        }
+
+        return ss.str();
     }
 
     void log(const std::string& msg, const Location& loc, LogLevel level) {

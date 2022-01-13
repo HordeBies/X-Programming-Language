@@ -19,6 +19,8 @@ struct FunctionNode : public DeclarationNode
 
     virtual bool Analyze(Analyzer* context);
 
+    virtual std::string GenerateQuad(Generator* context);
+
     virtual std::string declaredHeader() {
         std::string ret = type->toString() + " " + id->name + "(";
         for (int i = 0; i < paramList.size(); ++i) {
@@ -61,6 +63,8 @@ struct FunctionInvokeNode : public ExpressionNode
 
     virtual bool Analyze(Analyzer* context, bool valueUsed);
 
+    virtual std::string GenerateQuad(Generator* context);
+
     virtual std::string toString(int ind = 0) {
         std::string ret = std::string(ind, ' ') + id->name + "(";
         for (int i = 0; i < argList.size(); ++i) {
@@ -82,6 +86,8 @@ struct ReturnNode : public StatementNode
 
     virtual bool Analyze(Analyzer* context);
 
+    virtual std::string GenerateQuad(Generator* context);
+
     virtual std::string toString(int ind = 0) {
         std::string ret = std::string(ind, ' ') + "return";
         if (value) {
@@ -101,6 +107,8 @@ struct PrintNode : public StatementNode
     }
 
     virtual bool Analyze(Analyzer* context);
+
+    virtual std::string GenerateQuad(Generator* context);
 
     virtual std::string toString(int ind = 0){
         std::string ret = std::string(ind,' ') + "print(" + format + id->toString() + ")";

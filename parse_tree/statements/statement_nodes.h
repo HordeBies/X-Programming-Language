@@ -18,6 +18,8 @@ struct ScopeNode : public StatementNode
 
     virtual bool Analyze(Analyzer* context);
 
+    virtual std::string GenerateQuad(Generator* context);
+
     virtual std::string toString(int ind = 0) {
         std::string ret = std::string(ind, ' ') + "{\n";
         for (int i = 0; i < statements.size(); ++i) {
@@ -40,6 +42,8 @@ struct VarDeclarationNode : public DeclarationNode {
     }
 
     virtual bool Analyze(Analyzer* context);
+
+    virtual std::string GenerateQuad(Generator* context);
 
     virtual std::string toString(int ind = 0) {
         std::string ret = std::string(ind, ' ') + declaredHeader();

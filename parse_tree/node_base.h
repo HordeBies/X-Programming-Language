@@ -39,7 +39,7 @@ typedef struct Node
         return true;
     }
 
-    virtual std::string generateQuad(Generator* context) {
+    virtual std::string GenerateQuad(Generator* context) {
         return "";
     }
 

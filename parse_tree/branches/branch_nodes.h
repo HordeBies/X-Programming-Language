@@ -19,6 +19,8 @@ struct IfNode : public StatementNode {
 
     virtual bool Analyze(Analyzer* context);
 
+    virtual std::string GenerateQuad(Generator* context);
+
     virtual std::string toString(int ind = 0) {
         std::string ret = std::string(ind, ' ') + "if (" + cond->toString() + ")\n";
         ret += ifBody->toString(ind + (dynamic_cast<ScopeNode*>(ifBody) ? 0 : 4));
@@ -43,6 +45,8 @@ struct WhileNode : public StatementNode {
 
     virtual bool Analyze(Analyzer* context);
 
+    virtual std::string GenerateQuad(Generator* context);
+
     virtual std::string toString(int ind = 0) {
         std::string ret = std::string(ind, ' ') + "while (" + cond->toString() + ") \n";
         ret += body->toString(ind + (dynamic_cast<ScopeNode*>(body) ? 0 : 4));
@@ -66,6 +70,8 @@ struct ForNode : public StatementNode {
 
     virtual bool Analyze(Analyzer* context);
 
+    virtual std::string GenerateQuad(Generator* context);
+
     virtual std::string toString(int ind = 0) {
         std::string ret = std::string(ind, ' ') + "for (";
         ret += (initStmt ? initStmt->toString() : "") + ";";
@@ -81,6 +87,8 @@ struct BreakStmtNode : public StatementNode {
     BreakStmtNode(const Location& loc) : StatementNode(loc) {}
 
     virtual bool Analyze(Analyzer* context);
+
+    virtual std::string GenerateQuad(Generator* context);
 
     virtual std::string toString(int ind = 0) {
         return std::string(ind, ' ') + "break";

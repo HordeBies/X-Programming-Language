@@ -220,8 +220,8 @@ EqualityExpr    : Expression EQUAL Expression		{ $$ = new BinaryOprNode($2, OP_E
                 | Expression NOTEQUAL Expression	{ $$ = new BinaryOprNode($2, OP_NEQ, $1, $3); }
                 ;
 
-RelationalExpr  : Expression '<' Expression			{ $$ = new BinaryOprNode($2, OP_G, $1, $3); }
-                | Expression '>' Expression			{ $$ = new BinaryOprNode($2, OP_L, $1, $3); }
+RelationalExpr  : Expression '<' Expression			{ $$ = new BinaryOprNode($2, OP_L, $1, $3); }
+                | Expression '>' Expression			{ $$ = new BinaryOprNode($2, OP_G, $1, $3); }
                 | Expression LTE Expression			{ $$ = new BinaryOprNode($2, OP_LE, $1, $3); }
                 | Expression GTE Expression			{ $$ = new BinaryOprNode($2, OP_GE, $1, $3); }
                 ;
