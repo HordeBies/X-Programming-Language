@@ -6,5 +6,9 @@ int fib(int n){
 }
 void main(){
     int res = fib(10);
-    printf(res);
+    if(res%2){
+        printf(res);
+    }else{
+        printf("Even:",res);
+    }
 }

@@ -7,6 +7,7 @@ extern char* yytext;
 extern int yylineno;
 
 StatementNode* programRoot = NULL;
+bool successFlag = true;
 %} 
 
 %union {
@@ -241,4 +242,5 @@ Identifier	: IDENTIFIER							{ $$ = new IdentifierNode($1.loc, $1.value); }
 
 int yyerror(char *s) {
     printf("Error in line: %d, with message %s at token '%s' while parsing\n", yylineno, s, yytext);
+	successFlag = false;
 }

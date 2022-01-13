@@ -1,24 +1,28 @@
-int_var 10 # LOAD
-double_var 4.20 # LOAD
-str_var "ali türk" # LOAD
-bool_var false # LOAD
-test_B:
-t 13 # LOAD
-t4 t3 # NEG
-test_data t4 # LOAD
-t5 bool_var # NOT
-t6 15 t SUB
-t7 test_data t6 GT
-t8 t5 t7 AND
-test_flag t8 # LOAD
-t9 test_data t ADD
-t9 # # PUSH
+fib_B:
+n # # POP
+t0 n 1 EQ
+t0 IF_0_E # JZ
+n # # PUSH
 # # # JB
-test_E:
+IF_0_E:
+t1 n 1 SUB
+t1 # # PUSH
+fib_B # # JL
+t2 # # POP
+t3 n t2 ADD
+t3 # # PUSH
+# # # JB
+fib_E:
 main_B:
-test_B # # JL
-t10 # # POP
-res t10 # LOAD
+10 # # PUSH
+fib_B # # JL
+t4 # # POP
+res t4 # LOAD
+t5 res 2 MOD
+t5 IFE_1_B # JZ
 # res # PR
+IFE_1_B:
+"Even:" res # PR
+IF_1_E:
 main_E:
 

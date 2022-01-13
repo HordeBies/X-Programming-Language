@@ -11,6 +11,7 @@
 extern int yyparse();
 extern FILE *yyin;
 extern StatementNode* programRoot;
+extern bool successFlag;
 
 void writeToFile(std::string data, std::string filename);
 
@@ -22,6 +23,8 @@ int main(int argc, char *argv[]){
     yyin = fopen(argv[1], "r");
     printf("Parsing...\n");
     yyparse();
+    if(!successFlag)
+        return 0;
     printf("Successfully Parsed.\n\n");
     Analyzer analyzer(argv[1]);
     Generator generator;
