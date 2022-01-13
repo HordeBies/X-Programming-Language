@@ -1,12 +1,24 @@
+int_var 10 # LOAD
+double_var 4.20 # LOAD
+str_var "ali türk" # LOAD
+bool_var false # LOAD
+test_B:
+t 13 # LOAD
+t4 t3 # NEG
+test_data t4 # LOAD
+t5 bool_var # NOT
+t6 15 t SUB
+t7 test_data t6 GT
+t8 t5 t7 AND
+test_flag t8 # LOAD
+t9 test_data t ADD
+t9 # # PUSH
+# # # JB
+test_E:
 main_B:
-i_1 5 # LOAD
-W_0_B:
-t0 i_1 10 LT
-t0 W_0_E JZ
-t1 i_1 1 ADD
-i_1 t1 # LOAD
-sv 31 # LOAD
-W_0_B # # JMP
-W_0_E:
+test_B # # JL
+t10 # # POP
+res t10 # LOAD
+# res # PR
 main_E:
 

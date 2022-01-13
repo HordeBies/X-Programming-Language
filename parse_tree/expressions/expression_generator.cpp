@@ -37,7 +37,6 @@ std::string BinaryOprNode::GenerateQuad(Generator* context) {
             ret += context->generateTemp() + " " + lhs_temp + " " + rhs->GenerateQuad(context) + " " + Utils::oprToQuad(opr) + "\n";
         }else
         {
-            std::cout <<"DEBUG: BOTH != C\n";
             ret += lhs->GenerateQuad(context);
             std::string lhs_temp = context->getCurrTemp();
             ret += rhs->GenerateQuad(context);
@@ -46,7 +45,7 @@ std::string BinaryOprNode::GenerateQuad(Generator* context) {
         }
     }
     else {
-            std::cout<<"DEBUG: " << "not used"  << "\n";
+            // std::cout<<"DEBUG: " << "not used"  << "\n";
     }
 
     return ret;

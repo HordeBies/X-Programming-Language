@@ -1,12 +1,12 @@
 scope,type,identifier,alias,used
-Global,int,i,i,0
-Global,string,si,si,0
-Global,bool,bi,bi,0
-Global,double,di,di,0
+Global,int,int_var,int_var,1
+Global,double,double_var,double_var,0
+Global,string,str_var,str_var,0
+Global,bool,bool_var,bool_var,1
+Global,int(*)(),test,test,1
+Local,int,t,t,3
+Local,int,test_data,test_data,2
+Local,bool,test_flag,test_flag,0
 Global,void(*)(),main,main,0
-Local,int,i,i_1,2
-Local,string,si,si_1,0
-Local,bool,bi,bi_1,0
-Local,double,di,di_1,0
-Local,int,sv,sv,0
+Local,int,res,res,1
 
