@@ -6,3 +6,5 @@ rules/lexer.cpp
 rules/parser.cpp
 rules/parser.hpp
 rules/parser.output
+data/quads
+data/symbol_table.csv

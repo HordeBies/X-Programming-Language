@@ -160,7 +160,7 @@ public:
             int scope = symbols[i].first;
             DeclarationNode* sym = symbols[i].second;
 
-            ss << scope;
+            ss << (scope?"Local":"Global");
             ss << "," << sym->declaredType();
             ss << "," << sym->id->name;
             ss << "," << sym->alias;
