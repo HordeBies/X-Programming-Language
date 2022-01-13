@@ -22,12 +22,12 @@ comp:
 		parse_tree/statements/statement_generator.cpp \
 
 build:
-#	@make -s clear
+	@make -s clear
 	@make -s gen
 	@make -s comp
 
 run:
-#	@make -s clear
+	@make -s clear
 	./XPL.exe  $(src) -o data/out.quad -s data/symbol.table
 
 all:

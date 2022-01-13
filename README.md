@@ -18,3 +18,11 @@ e.g.
 make all src="data/tests/test.c"
 ````
 
+After compiling executable you can run this command to skip compiling step.
+````
+make run src="{Path}"
+````
+e.g.
+````
+make run src="data/tests/test.c"
+````
